@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E2A534D6-50B5-4430-B80E-26A95B417132}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feedly.NET", "Feedly.NET\Feedly.NET.csproj", "{3A67196E-A33E-4E45-A6A5-33E8B2C3118F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedlyConsole", "FeedlyConsole\FeedlyConsole.csproj", "{13B548FB-1B6D-456E-BEBA-B976743E6BA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Feedly.NET", "Test.Feedly.NET\Test.Feedly.NET.csproj", "{294F2260-B893-42C2-91CB-B228D5B6EBDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A67196E-A33E-4E45-A6A5-33E8B2C3118F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A67196E-A33E-4E45-A6A5-33E8B2C3118F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A67196E-A33E-4E45-A6A5-33E8B2C3118F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A67196E-A33E-4E45-A6A5-33E8B2C3118F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13B548FB-1B6D-456E-BEBA-B976743E6BA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13B548FB-1B6D-456E-BEBA-B976743E6BA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13B548FB-1B6D-456E-BEBA-B976743E6BA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13B548FB-1B6D-456E-BEBA-B976743E6BA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{294F2260-B893-42C2-91CB-B228D5B6EBDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{294F2260-B893-42C2-91CB-B228D5B6EBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{294F2260-B893-42C2-91CB-B228D5B6EBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{294F2260-B893-42C2-91CB-B228D5B6EBDB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
