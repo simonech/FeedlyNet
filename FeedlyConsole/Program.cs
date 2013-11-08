@@ -14,7 +14,7 @@ namespace FeedlyConsole
     class Program
     {
 
-        private static string _oAuthCode = "AQAAqwV7ImkiOiJhMjJjMTNhZS1mN2U2LTQ1MjQtOTU2ZS05N2UyOTJjYWUxNWMiLCJhIjoiRmVlZGx5IHNhbmRib3ggY2xpZW50IiwidiI6InNhbmRib3giLCJ4Ijoic3RhbmRhcmQiLCJ0IjoxLCJwIjoxLCJlIjoxMzg0MzU3NzYzNjQ5fQ";
+        private static string _oAuthCode = "AQAAb697ImkiOiJhMjJjMTNhZS1mN2U2LTQ1MjQtOTU2ZS05N2UyOTJjYWUxNWMiLCJhIjoiRmVlZGx5IHNhbmRib3ggY2xpZW50IiwicCI6MSwidCI6MSwidiI6InNhbmRib3giLCJ4IjoicHJvIiwiZSI6MTM4NDUzMDU3NjAzNH0";
         private static string _refreshToken = "AQAAUV17InAiOjEsImEiOiJGZWVkbHkgc2FuZGJveCBjbGllbnQiLCJ1IjoiMTE3MTMzMDIxNzg4MTE3MjI0MTM4IiwibiI6ImVWYjlnOTJmRDVhSEh1cDYiLCJ2Ijoic2FuZGJveCIsImkiOiJhMjJjMTNhZS1mN2U2LTQ1MjQtOTU2ZS05N2UyOTJjYWUxNWMifQ";
         private static string _userId = "a22c13ae-f7e6-4524-956e-97e292cae15c";
 

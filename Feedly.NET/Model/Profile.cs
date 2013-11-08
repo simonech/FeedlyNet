@@ -27,6 +27,18 @@ namespace Feedly.NET.Model
         public bool pocketConnected { get; set; }
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime created { get; set; }
+        public string product { get; set; }
+        public int backerId { get; set; }
 
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime subscriptionExpiration { get; set; }
+
+        public PaymentProviderId paymentProviderId { get; set; }
+
+    }
+
+    public class PaymentProviderId
+    {
+        public string Stripe { get; set; }
     }
 }
