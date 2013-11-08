@@ -1,4 +1,5 @@
-﻿using System.Security.Authentication;
+﻿using System.Reflection.Emit;
+using System.Security.Authentication;
 using Feedly.NET;
 using Feedly.NET.Exceptions;
 using Feedly.NET.Model;
@@ -84,9 +85,21 @@ namespace FeedlyConsole
             Console.Write("Enter temporary code:");
             string code = Console.ReadLine();
 
+            WriteHeader("Getting Auth Token"); 
+
             AuthenticationInfo info = loginClient.GetAuthorizationToken(code).Result;
+            Console.WriteLine("User Id: "+info.id);
+            Console.WriteLine("TokenType: " + info.token_type);
+            Console.WriteLine("AuthToken: " + info.access_token);
+            string refreshToken = info.refresh_token;
 
+            WriteHeader("Refreshing Auth Token");
 
+            AuthenticationInfo refreshedInfo = loginClient.RefreshAuthorizationToken(refreshToken).Result;
+
+            Console.WriteLine("User Id: " + refreshedInfo.id);
+            Console.WriteLine("TokenType: " + refreshedInfo.token_type);
+            Console.WriteLine("AuthToken: " + refreshedInfo.access_token);
         }
 
         private static void TestFeeds(FeedlyClient client, ResourceIdsBuilder resourceIdsBuilder)
