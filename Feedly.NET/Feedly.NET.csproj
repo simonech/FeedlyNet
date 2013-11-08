@@ -81,6 +81,8 @@
     <Compile Include="Exceptions\FeedlyUnspecifiedException.cs" />
     <Compile Include="Exceptions\FeedlyClientErrorException.cs" />
     <Compile Include="Exceptions\FeedlyAuthenticationException.cs" />
+    <Compile Include="LoginClient.cs" />
+    <Compile Include="Model\AuthenticationInfo.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="FeedlyClient.cs" />
     <Compile Include="JsonSerialization\DateTimeUtils.cs" />

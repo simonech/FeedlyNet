@@ -6,13 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Feedly.NET.Exceptions;
 using Feedly.NET.Model;
+using Feedly.NET.Services;
 using Newtonsoft.Json;
 
 namespace Feedly.NET
 {
     public abstract class BaseClient
     {
+        public UrlBuilder UrlBuilder { get; set; }
         public string oAuthCode { get; set; }
+
+        protected BaseClient(UrlBuilder urlBuilder)
+        {
+            UrlBuilder = urlBuilder;
+        }
 
         protected HttpClient GetHttpClient()
         {

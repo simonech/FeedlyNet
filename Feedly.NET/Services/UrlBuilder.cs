@@ -9,7 +9,11 @@ namespace Feedly.NET.Services
     {
         private readonly ResourceIdsBuilder _resourceIdsBuilder;
         private Uri _serviceUrl = new Uri("http://sandbox.feedly.com/v3/");
-        
+        private Uri _serviceUrlSSL = new Uri("https://sandbox.feedly.com/v3/");
+
+
+        private const string _authPart = "auth/";
+
         private const string _profilePart = "profile/";
 
         private const string _preferencesPart = "preferences/";
@@ -29,9 +33,14 @@ namespace Feedly.NET.Services
             _resourceIdsBuilder = resourceIdsBuilder;
         }
 
+        public Uri GetAuthorizationUrl()
+        {
+            return new Uri(_serviceUrlSSL, _authPart);
+        }
+
         public Uri GetProfileUrl()
         {
-            return new Uri(_serviceUrl, _profilePart);
+            return new Uri(_serviceUrlSSL, _profilePart);
         }
 
         public Uri GetPreferencesUrl()
@@ -52,7 +61,7 @@ namespace Feedly.NET.Services
 
         public Uri GetSubscriptionsUrl()
         {
-            return new Uri(_serviceUrl, _subscriptionsPart);
+            return new Uri(_serviceUrlSSL, _subscriptionsPart);
         }
 
         public Uri GetSubscriptionUrl(string feedId)

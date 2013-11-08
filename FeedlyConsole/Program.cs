@@ -31,6 +31,9 @@ namespace FeedlyConsole
               
               switch (selectedTest)
               {
+                  case "a":
+                      TestAuthentication(client);
+                      break;
                   case "u":
                       TestUserProfile(client);
                       break;
@@ -46,7 +49,7 @@ namespace FeedlyConsole
                   case "t":
                       TestTopics(client, resourceIdsBuilder);
                       break;
-                  case "a":
+                  case "g":
                       TestTags(client, resourceIdsBuilder);
                       break;
                   case "f":
@@ -67,6 +70,23 @@ namespace FeedlyConsole
                 }
 
             } while (!close);
+        }
+
+        private static void TestAuthentication(FeedlyClient client)
+        {
+            WriteHeader("Testing Authentication");
+            LoginClient loginClient = new LoginClient(client.UrlBuilder);
+            string urlForOAuthCodeRetrival = loginClient.GetLoginUrl().ToString();
+
+            Console.WriteLine("Please go to the following url and later paste the temporary code in the following line:");
+            Console.WriteLine(urlForOAuthCodeRetrival);
+
+            Console.Write("Enter temporary code:");
+            string code = Console.ReadLine();
+
+            AuthenticationInfo info = loginClient.GetAuthorizationToken(code).Result;
+
+
         }
 
         private static void TestFeeds(FeedlyClient client, ResourceIdsBuilder resourceIdsBuilder)
@@ -270,54 +290,66 @@ namespace FeedlyConsole
         {
             WriteHeader("Testing Categories");
 
-            List<Category> result = client.GetCategories().Result;
-
-            foreach (var item in result)
+            try
             {
-                Console.WriteLine("{0} = {1}", item.id, item.label);
+                List<Category> result = client.GetCategories().Result;
+
+                foreach (var item in result)
+                {
+                    Console.WriteLine("{0} = {1}", item.id, item.label);
+                }
+
+                WriteSeparator();
+
+
+                string original = result[0].label;
+                string replaced = original.Split('$')[0] + "$"+DateTime.Now.ToShortTimeString();
+
+                bool updated = client.UpdateCategory(result[0].id, replaced).Result;
+
+                Console.WriteLine("Updated");
+
+                WriteSeparator();
+
+                List<Category> result1 = client.GetCategories().Result;
+
+                foreach (var item in result1)
+                {
+                    Console.WriteLine("{0} = {1}", item.id, item.label);
+                }
+
+                WriteSeparator();
+
+                Subscription newSubscription = CreateNewSubscription(resourceIdsBuilder);
+                string categoryId = newSubscription.categories[0].id;
+                bool newSub = client.AddOrUpdateSubscription(newSubscription).Result;
+
+                List<Category> result2 = client.GetCategories().Result;
+
+                foreach (var item in result2)
+                {
+                    Console.WriteLine("{0} = {1}", item.id, item.label);
+                }
+
+                bool deleted = client.DeleteCategory(categoryId).Result;
+
+                bool deletedSub = client.DeleteSubscription(newSubscription.id).Result;
+
+                List<Category> result3 = client.GetCategories().Result;
+
+                foreach (var item in result3)
+                {
+                    Console.WriteLine("{0} = {1}", item.id, item.label);
+                }
             }
-
-            WriteSeparator();
-
-
-            string original = result[0].label;
-            string replaced = original.Split('$')[0] + "$"+DateTime.Now.ToShortTimeString();
-
-            bool updated = client.UpdateCategory(result[0].id, replaced).Result;
-
-            Console.WriteLine("Updated");
-
-            WriteSeparator();
-
-            List<Category> result1 = client.GetCategories().Result;
-
-            foreach (var item in result1)
+            catch (AggregateException ex)
             {
-                Console.WriteLine("{0} = {1}", item.id, item.label);
-            }
+                Console.WriteLine("Error happened while performing request:");
+                foreach (var exception in ex.InnerExceptions)
+                {
+                    Console.WriteLine(exception.Message);
+                }
 
-            WriteSeparator();
-
-            Subscription newSubscription = CreateNewSubscription(resourceIdsBuilder);
-            string categoryId = newSubscription.categories[0].id;
-            bool newSub = client.AddOrUpdateSubscription(newSubscription).Result;
-
-            List<Category> result2 = client.GetCategories().Result;
-
-            foreach (var item in result2)
-            {
-                Console.WriteLine("{0} = {1}", item.id, item.label);
-            }
-
-            bool deleted = client.DeleteCategory(categoryId).Result;
-
-            bool deletedSub = client.DeleteSubscription(newSubscription.id).Result;
-
-            List<Category> result3 = client.GetCategories().Result;
-
-            foreach (var item in result3)
-            {
-                Console.WriteLine("{0} = {1}", item.id, item.label);
             }
         }
 
@@ -337,21 +369,32 @@ namespace FeedlyConsole
 
         private static void TestUserPreferences(FeedlyClient client)
         {
-            WriteHeader("Testing User Preferences");
-            Dictionary<string,string> result = client.GetPreferences().Result;
-
-            foreach (var item in result)
+            try
             {
-                Console.WriteLine("{0} = {1}", item.Key, item.Value);
+                WriteHeader("Testing User Preferences");
+                Dictionary<string,string> result = client.GetPreferences().Result;
+
+                foreach (var item in result)
+                {
+                    Console.WriteLine("{0} = {1}", item.Key, item.Value);
+                }
+
+                WriteSeparator();
+
+                Dictionary<string, string> result1 = client.UpdatePreference("useEvernote2", "").Result;
+
+                foreach (var item in result1)
+                {
+                    Console.WriteLine("{0} = {1}", item.Key, item.Value);
+                }
             }
-
-            WriteSeparator();
-
-            Dictionary<string, string> result1 = client.UpdatePreference("useEvernote2", "").Result;
-
-            foreach (var item in result1)
+            catch (AggregateException ex)
             {
-                Console.WriteLine("{0} = {1}", item.Key, item.Value);
+                Console.WriteLine("Error happened while performing request:");
+                foreach (var exception in ex.InnerExceptions)
+                {
+                    Console.WriteLine(exception.Message);
+                }
             }
         }
 
@@ -408,12 +451,13 @@ namespace FeedlyConsole
             Console.WriteLine("Welcome to the testing console for Feedly.NET");
             Console.WriteLine("Please choose the feature of Feedly.NET you want to test:");
             Console.WriteLine();
+            Console.WriteLine(" - [A]uthentication");
             Console.WriteLine(" - [U]ser profile");
             Console.WriteLine(" - user [P]references");
             Console.WriteLine(" - [C]ategories");
             Console.WriteLine(" - [S]ubscriptions");
             Console.WriteLine(" - [T]opics");
-            Console.WriteLine(" - t[A]gs");
+            Console.WriteLine(" - ta[G]s");
             Console.WriteLine(" - [F]eeds");
             Console.WriteLine();
             Console.WriteLine("Select the option by pressing the relevant key, or [enter] to test all");
