@@ -1,4 +1,5 @@
-﻿using System.Runtime.Remoting.Messaging;
+﻿using System;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Authentication;
 using System.Threading;
 using Feedly.NET.Model;
@@ -125,9 +126,9 @@ namespace Feedly.NET
             return await ExecPost<List<Feed>>(UrlBuilder.GetFeedsUrl(), json);
         }
 
-        public async Task<UnreadCount> GetUnreadCount()
+        public async Task<UnreadCount> GetUnreadCount(long newerThan = 0, bool autorefresh = false, string streamId="")
         {
-            return await ExecGet<UnreadCount>(UrlBuilder.GetMarkersCountUrl());
+            return await ExecGet<UnreadCount>(UrlBuilder.GetMarkersCountUrl(newerThan, autorefresh, streamId));
         }
     }
 }

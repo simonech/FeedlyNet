@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Feedly.NET.Services;
+using Feedly.NET.JsonSerialization;
 
 namespace FeedlyConsole
 {
@@ -78,14 +79,38 @@ namespace FeedlyConsole
 
         private static void TestMakers(FeedlyClient client, ResourceIdsBuilder resourceIdsBuilder)
         {
-            WriteHeader("Testing Read Count");
+
 
             UnreadCount result = client.GetUnreadCount().Result;
 
+            int totalUnread = result.unreadcounts.SingleOrDefault(i => i.Type == FeedType.All).count;
+
+            WriteHeader("Testing all unread Count: " + totalUnread);
+
             foreach (var unreadCountItem in result.unreadcounts)
             {
-                Console.WriteLine("{0} {1} {2} {3}",unreadCountItem.Type, unreadCountItem.id, unreadCountItem.count, unreadCountItem.updated.ToShortDateString());
+                //Console.WriteLine("{0} {1} {2} {3}",unreadCountItem.Type, unreadCountItem.id, unreadCountItem.count, unreadCountItem.updated.ToShortDateString());
             }
+            
+
+            long newerThen = DateTime.Now.AddDays(-1).ConvertToUnixTimestampMilliSec();
+            result = client.GetUnreadCount(newerThan: newerThen).Result;
+
+            totalUnread = result.unreadcounts.SingleOrDefault(i => i.Type == FeedType.All).count;
+
+            WriteHeader("Testing unread Count of last day: " + totalUnread);
+
+            foreach (var unreadCountItem in result.unreadcounts)
+            {
+                //Console.WriteLine("{0} {1} {2} {3}", unreadCountItem.Type, unreadCountItem.id, unreadCountItem.count, unreadCountItem.updated.ToShortDateString());
+            }
+
+            result = client.GetUnreadCount(streamId:resourceIdsBuilder.CATEGORY_MUST_READ).Result;
+
+            totalUnread = result.unreadcounts.SingleOrDefault(i => i.Type == FeedType.MustRead).count;
+
+            WriteHeader("Testing unread Count of last day: " + totalUnread);
+
 
         }
 

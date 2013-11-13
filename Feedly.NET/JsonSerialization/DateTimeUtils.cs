@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Feedly.NET.JsonSerialization
 {
-    static class DateTimeUtils
+    public static class DateTimeUtils
     {
         public static DateTime ConvertFromUnixTimestampSec(this long timestamp)
         {

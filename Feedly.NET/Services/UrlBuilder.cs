@@ -116,9 +116,16 @@ namespace Feedly.NET.Services
             return new Uri(_serviceUrl, _markersPart);
         }
 
-        public Uri GetMarkersCountUrl()
+        public Uri GetMarkersCountUrl(long newerThan = 0, bool autorefresh = false, string streamId = "")
         {
-            return new Uri(GetMarkersUrl(), "counts");
+            string parameters = string.Empty;
+            if (newerThan != 0) parameters += "newerThan="+newerThan;
+            if (autorefresh) parameters += "autorefresh=true";
+            if (!String.IsNullOrEmpty(streamId)) parameters += "streamId=" + streamId;
+            if (!String.IsNullOrWhiteSpace(parameters))
+                parameters = "?" + parameters;
+
+            return new Uri(GetMarkersUrl(), "counts"+parameters);
         }
     }
 }
