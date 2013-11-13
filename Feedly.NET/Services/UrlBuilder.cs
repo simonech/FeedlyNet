@@ -27,6 +27,8 @@ namespace Feedly.NET.Services
         private const string _tagsPart = "tags/";
 
         private const string _feedsPart = "feeds/";
+        
+        private const string _markersPart = "markers/";
 
         public UrlBuilder(ResourceIdsBuilder resourceIdsBuilder)
         {
@@ -106,6 +108,17 @@ namespace Feedly.NET.Services
         {
             string feedIdEscaped = Uri.EscapeDataString(feedId);
             return new Uri(GetBaseFeedsUrl(), feedIdEscaped);
+        }
+
+
+        public Uri GetMarkersUrl()
+        {
+            return new Uri(_serviceUrl, _markersPart);
+        }
+
+        public Uri GetMarkersCountUrl()
+        {
+            return new Uri(GetMarkersUrl(), "counts");
         }
     }
 }

@@ -56,6 +56,9 @@ namespace FeedlyConsole
                   case "f":
                       TestFeeds(client, resourceIdsBuilder);
                       break;
+                  case "r":
+                      TestMakers(client, resourceIdsBuilder);
+                      break;
                   case "z":
                       close = true;
                       break;
@@ -71,6 +74,19 @@ namespace FeedlyConsole
                 }
 
             } while (!close);
+        }
+
+        private static void TestMakers(FeedlyClient client, ResourceIdsBuilder resourceIdsBuilder)
+        {
+            WriteHeader("Testing Read Count");
+
+            UnreadCount result = client.GetUnreadCount().Result;
+
+            foreach (var unreadCountItem in result.unreadcounts)
+            {
+                Console.WriteLine("{0} {1} {2} {3}",unreadCountItem.Type, unreadCountItem.id, unreadCountItem.count, unreadCountItem.updated.ToShortDateString());
+            }
+
         }
 
         private static void TestAuthentication(FeedlyClient client)
@@ -472,6 +488,7 @@ namespace FeedlyConsole
             Console.WriteLine(" - [T]opics");
             Console.WriteLine(" - ta[G]s");
             Console.WriteLine(" - [F]eeds");
+            Console.WriteLine(" - [R]aed/Unread");
             Console.WriteLine();
             Console.WriteLine("Select the option by pressing the relevant key, or [enter] to test all");
 

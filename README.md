@@ -34,7 +34,7 @@ Still missing all methods to associate tags with entries.
 Not implemented.
 
 ###Markers
-Not implemented.
+Partially implemented: implemented get unread count
 
 ###Feeds
 All implemented.

@@ -124,5 +124,10 @@ namespace Feedly.NET
             string json = JsonConvert.SerializeObject(feedIds);
             return await ExecPost<List<Feed>>(UrlBuilder.GetFeedsUrl(), json);
         }
+
+        public async Task<UnreadCount> GetUnreadCount()
+        {
+            return await ExecGet<UnreadCount>(UrlBuilder.GetMarkersCountUrl());
+        }
     }
 }

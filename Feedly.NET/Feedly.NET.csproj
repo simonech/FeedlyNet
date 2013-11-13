@@ -97,6 +97,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ResourceIdsBuilder.cs" />
     <Compile Include="Services\UrlBuilder.cs" />
+    <Compile Include="Model\UnreadCount.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
