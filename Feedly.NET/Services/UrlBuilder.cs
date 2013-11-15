@@ -30,6 +30,8 @@ namespace Feedly.NET.Services
         
         private const string _markersPart = "markers/";
 
+        private const string _streamsPart = "streams/";
+
         public UrlBuilder(ResourceIdsBuilder resourceIdsBuilder)
         {
             _resourceIdsBuilder = resourceIdsBuilder;
@@ -119,13 +121,50 @@ namespace Feedly.NET.Services
         public Uri GetMarkersCountUrl(long newerThan = 0, bool autorefresh = false, string streamId = "")
         {
             string parameters = string.Empty;
-            if (newerThan != 0) parameters += "newerThan="+newerThan;
-            if (autorefresh) parameters += "autorefresh=true";
-            if (!String.IsNullOrEmpty(streamId)) parameters += "streamId=" + streamId;
+            if (newerThan != 0) parameters += "&newerThan="+newerThan;
+            if (autorefresh) parameters += "&autorefresh=true";
+            if (!String.IsNullOrEmpty(streamId)) parameters += "&streamId=" + streamId;
             if (!String.IsNullOrWhiteSpace(parameters))
+            {
+                parameters = parameters.TrimStart('&');
                 parameters = "?" + parameters;
+            }
+                
 
             return new Uri(GetMarkersUrl(), "counts"+parameters);
+        }
+
+        public Uri GetStreamIdsUrl(string streamId, int count = 0, string ranked = "", long newerThan = 0,
+            bool unreadOnly = false, string continuation = "")
+        {
+            return GetStreamUrl("ids", streamId, count: count, ranked: ranked, newerThan: newerThan,
+                unreadOnly: unreadOnly, continuation: continuation);
+        }
+
+        public Uri GetStreamContentsUrl(string streamId, int count = 0, string ranked = "", long newerThan = 0,
+    bool unreadOnly = false, string continuation = "")
+        {
+            return GetStreamUrl("contents", streamId, count: count, ranked: ranked, newerThan: newerThan,
+                unreadOnly: unreadOnly, continuation: continuation);
+        }
+
+        private Uri GetStreamUrl(string resultType,string streamId, int count = 0, string ranked = "", long newerThan = 0, bool unreadOnly = false, string continuation = "")
+        {
+            string streamIdEscaped = Uri.EscapeDataString(streamId);
+
+            string parameters = string.Empty;
+            if (count != 0) parameters += "&count=" + count;
+            if (newerThan != 0) parameters += "&newerThan=" + newerThan;
+            if (unreadOnly) parameters += "&unreadOnly=true";
+            if (!String.IsNullOrEmpty(ranked)) parameters += "&ranked=" + ranked;
+            if (!String.IsNullOrEmpty(continuation)) parameters += "&continuation=" + continuation;
+            if (!String.IsNullOrWhiteSpace(parameters))
+            {
+                parameters = parameters.TrimStart('&');
+                parameters = "?" + parameters;
+            }
+
+            return new Uri(_serviceUrl, _streamsPart + streamIdEscaped + "/" + resultType + parameters);
         }
     }
 }

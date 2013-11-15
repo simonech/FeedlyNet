@@ -88,6 +88,7 @@
     <Compile Include="JsonSerialization\DateTimeUtils.cs" />
     <Compile Include="JsonSerialization\ReflectionUtils.cs" />
     <Compile Include="JsonSerialization\UnixDateTimeConverter.cs" />
+    <Compile Include="Model\Entry.cs" />
     <Compile Include="Model\ErrorMessage.cs" />
     <Compile Include="Model\Feed.cs" />
     <Compile Include="Model\Profile.cs" />
@@ -98,6 +99,8 @@
     <Compile Include="Services\ResourceIdsBuilder.cs" />
     <Compile Include="Services\UrlBuilder.cs" />
     <Compile Include="Model\UnreadCount.cs" />
+    <Compile Include="Model\StreamIdResponse.cs" />
+    <Compile Include="Model\StreamContentesResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -130,5 +130,15 @@ namespace Feedly.NET
         {
             return await ExecGet<UnreadCount>(UrlBuilder.GetMarkersCountUrl(newerThan, autorefresh, streamId));
         }
+
+        public async Task<StreamIdResponse> GetEntriesIds(string streamId, int count = 0, long newerThan = 0, string continuation = "")
+        {
+            return await ExecGet<StreamIdResponse>(UrlBuilder.GetStreamIdsUrl(streamId, count: count, newerThan: newerThan, continuation: continuation));
+        }
+
+        public async Task<StreamContentesResponse> GetEntriesContents(string streamId, int count = 0, long newerThan = 0, string continuation = "")
+        {
+            return await ExecGet<StreamContentesResponse>(UrlBuilder.GetStreamContentsUrl(streamId, count: count, newerThan: newerThan, continuation: continuation));
+        }
     }
 }

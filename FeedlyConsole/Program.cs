@@ -60,6 +60,9 @@ namespace FeedlyConsole
                   case "r":
                       TestMakers(client, resourceIdsBuilder);
                       break;
+                  case "m":
+                      TestStreams(client, resourceIdsBuilder);
+                      break;
                   case "z":
                       close = true;
                       break;
@@ -75,6 +78,56 @@ namespace FeedlyConsole
                 }
 
             } while (!close);
+        }
+
+        private static void TestStreams(FeedlyClient client, ResourceIdsBuilder resourceIdsBuilder)
+        {
+            WriteHeader("Testing Streams top 20");
+            StreamIdResponse response = client.GetEntriesIds(resourceIdsBuilder.CATEGORY_ALL).Result;
+
+            foreach (var id in response.ids)
+            {
+                Console.WriteLine(id);
+            }
+
+            WriteHeader("Testing Streams top 20 in 4 batches of 5");
+
+            string continuation = string.Empty;
+            for (int i=0; i<4;i++)
+            {
+                response = client.GetEntriesIds(resourceIdsBuilder.CATEGORY_ALL, 5, continuation: continuation).Result;
+
+                foreach (var id in response.ids)
+                {
+                    Console.WriteLine(id);
+                }
+                continuation = response.continuation;
+                WriteSeparator();
+            }
+
+            WriteHeader("Testing Streams top 20");
+            StreamContentesResponse contentesResponse = client.GetEntriesContents(resourceIdsBuilder.CATEGORY_ALL).Result;
+
+            foreach (var entry in contentesResponse.items)
+            {
+                Console.WriteLine(" - {0}\r\n{1}",entry.title,entry.published.ToShortTimeString());
+            }
+
+            //WriteHeader("Testing Streams top 20 in 4 batches of 5");
+
+            //continuation = string.Empty;
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    contentesResponse = client.GetEntriesContents(resourceIdsBuilder.CATEGORY_ALL, 5, continuation: continuation).Result;
+
+            //    foreach (var entry in contentesResponse.items)
+            //    {
+            //        Console.WriteLine(entry.title);
+            //    }
+            //    continuation = response.continuation;
+            //    WriteSeparator();
+            //}
+
         }
 
         private static void TestMakers(FeedlyClient client, ResourceIdsBuilder resourceIdsBuilder)
@@ -109,7 +162,7 @@ namespace FeedlyConsole
 
             totalUnread = result.unreadcounts.SingleOrDefault(i => i.Type == FeedType.MustRead).count;
 
-            WriteHeader("Testing unread Count of last day: " + totalUnread);
+            WriteHeader("Testing unread Count from must read feeds: " + totalUnread);
 
 
         }
@@ -514,6 +567,7 @@ namespace FeedlyConsole
             Console.WriteLine(" - ta[G]s");
             Console.WriteLine(" - [F]eeds");
             Console.WriteLine(" - [R]aed/Unread");
+            Console.WriteLine(" - strea[M]s");
             Console.WriteLine();
             Console.WriteLine("Select the option by pressing the relevant key, or [enter] to test all");
 
