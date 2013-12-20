@@ -15,7 +15,7 @@ namespace FeedlyConsole
     class Program
     {
 
-        private static string _oAuthCode = "AQAAb697ImkiOiJhMjJjMTNhZS1mN2U2LTQ1MjQtOTU2ZS05N2UyOTJjYWUxNWMiLCJhIjoiRmVlZGx5IHNhbmRib3ggY2xpZW50IiwicCI6MSwidCI6MSwidiI6InNhbmRib3giLCJ4IjoicHJvIiwiZSI6MTM4NDUzMDU3NjAzNH0";
+        private static string _oAuthCode = "AQAAKoF7ImkiOiJhMjJjMTNhZS1mN2U2LTQ1MjQtOTU2ZS05N2UyOTJjYWUxNWMiLCJhIjoiRmVlZGx5IHNhbmRib3ggY2xpZW50IiwicCI6MSwidCI6MSwidiI6InNhbmRib3giLCJ4IjoicHJvIiwiZSI6MTM4NTU2Njg3ODE2MX0:sandbox";
         private static string _refreshToken = "AQAAUV17InAiOjEsImEiOiJGZWVkbHkgc2FuZGJveCBjbGllbnQiLCJ1IjoiMTE3MTMzMDIxNzg4MTE3MjI0MTM4IiwibiI6ImVWYjlnOTJmRDVhSEh1cDYiLCJ2Ijoic2FuZGJveCIsImkiOiJhMjJjMTNhZS1mN2U2LTQ1MjQtOTU2ZS05N2UyOTJjYWUxNWMifQ";
         private static string _userId = "a22c13ae-f7e6-4524-956e-97e292cae15c";
 
@@ -110,7 +110,7 @@ namespace FeedlyConsole
 
             foreach (var entry in contentesResponse.items)
             {
-                Console.WriteLine(" - {0}\r\n{1}",entry.title,entry.published.ToShortTimeString());
+                Console.WriteLine(" - {0}\r\n{1}",entry.title,entry.crawled.ToLocalTime().ToShortTimeString());
             }
 
             //WriteHeader("Testing Streams top 20 in 4 batches of 5");
@@ -146,7 +146,7 @@ namespace FeedlyConsole
             }
             
 
-            long newerThen = DateTime.Now.AddDays(-1).ConvertToUnixTimestampMilliSec();
+            long newerThen = DateTime.Now.ToUniversalTime().AddDays(-1).ConvertToUnixTimestampMilliSec();
             result = client.GetUnreadCount(newerThan: newerThen).Result;
 
             totalUnread = result.unreadcounts.SingleOrDefault(i => i.Type == FeedType.All).count;

@@ -18,8 +18,8 @@ namespace Feedly.NET.Model
         public Content summary { get; set; }
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime published { get; set; }
-        public List<Alternate> alternate { get; set; }
-        public List<Canonical> canonical { get; set; }
+        public List<Href> alternate { get; set; }
+        public List<Href> canonical { get; set; }
         public Origin origin { get; set; }
         public Visual visual { get; set; }
         public bool unread { get; set; }
@@ -49,13 +49,7 @@ namespace Feedly.NET.Model
         public string contentType { get; set; }
     }
 
-    public class Alternate
-    {
-        public string href { get; set; }
-        public string type { get; set; }
-    }
-
-    public class Canonical
+    public class Href
     {
         public string href { get; set; }
         public string type { get; set; }
